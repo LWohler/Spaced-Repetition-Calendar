@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaced Repetition Calendar Generator</title>
+</head>
+<body>
+    <h1>Spaced Repetition Calendar Generator</h1>
+    <label for="lectureDate">Enter Lecture Date:</label>
+    <input type="date" id="lectureDate">
+    <button onclick="generateCalendar()">Generate Calendar</button>
+    <h2>Generated Calendar:</h2>
+    <div id="calendar"></div>
+
+    <script>
+        function generateCalendar() {
+            const lectureDateInput = document.getElementById("lectureDate");
+            const lectureDate = new Date(lectureDateInput.value);
+
+            const reviewDates = [
+                addDays(lectureDate, 1),
+                addDays(lectureDate, 3),
+                addDays(lectureDate, 7),
+                addDays(lectureDate, 14)
+            ];
+
+            const calendarDiv = document.getElementById("calendar");
+            calendarDiv.innerHTML = "";
+            reviewDates.forEach((date, index) => {
+                const reviewDiv = document.createElement("div");
+                reviewDiv.textContent = `Review ${index + 1}: ${formatDate(date)}`;
+                calendarDiv.appendChild(reviewDiv);
+            });
+        }
+
+        function addDays(date, days) {
+            const newDate = new Date(date);
+            newDate.setDate(newDate.getDate() + days);
+            return newDate;
+        }
+
+        function formatDate(date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>
